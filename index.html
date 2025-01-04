@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Model Interaction</title>
+    <style>
+        #loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>LLM Model Interaction</h1>
+    <form id="modelForm">
+        <label for="model_choice">Choose a model:</label>
+        <select id="model_choice" name="model_choice" required>
+            <option value="">-- Select a model --</option>
+            <option value="general_model">General Model</option>
+            <option value="resume_based">Resume-Based Model</option>
+        </select>
+        <br><br>
+        <label for="user_question">Your Question:</label>
+        <input type="text" id="user_question" name="user_question" required>
+        <br><br>
+        <div id="file_upload" style="display: none;">
+            <label for="file">Upload Resume (PDF/TXT only):</label>
+            <input type="file" id="file" name="file">
+        </div>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="loading">Loading... Please wait.</div>
+    <div id="response"></div>
+
+    <script>
+        const modelForm = document.getElementById('modelForm');
+        const modelChoice = document.getElementById('model_choice');
+        const fileUpload = document.getElementById('file_upload');
+        const loading = document.getElementById('loading');
+        const responseDiv = document.getElementById('response');
+
+        // Show/hide file upload based on model choice
+        modelChoice.addEventListener('change', function () {
+            if (this.value === 'resume_based') {
+                fileUpload.style.display = 'block';
+            } else {
+                fileUpload.style.display = 'none';
+            }
+        });
+
+        // Handle form submission
+        modelForm.addEventListener('submit', async function (e) {
+            e.preventDefault(); // Prevent form from refreshing the page
+            loading.style.display = 'block'; // Show loading screen
+            responseDiv.innerHTML = ''; // Clear previous response
+
+            const formData = new FormData(modelForm);
+
+            try {
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                loading.style.display = 'none'; // Hide loading screen
+                responseDiv.innerHTML = `<p>${result.answer}</p>`;
+            } catch (error) {
+                loading.style.display = 'none'; // Hide loading screen
+                responseDiv.innerHTML = `<p><strong>Error:</strong> ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

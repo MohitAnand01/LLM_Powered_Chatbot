@@ -5,6 +5,6 @@ The LLM should be able to:
 2. Respond to questions specifically related to your own CV/Resume.
 
 # How to run the code
-Step1: Pretrain the model by running cells in llm_train.ipynb file
-Step2:Run the ngrok server in llm_train.ipynb file and put the ngrk server url in send_to_llm function present in app.py file in url datatype
-Step3: Run app.py file by writing app.py command
+Step1: Pretrain the model by running cells in llm_train.ipynb file<br>
+Step2:Run the ngrok server in llm_train.ipynb file and put the ngrk server url in send_to_llm function present in app.py file in url datatype<br>
+Step3: Run app.py file by writing app.py command<br>
